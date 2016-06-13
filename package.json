@@ -1,0 +1,23 @@
+{
+  "name": "pquery",
+  "version": "0.0.1",
+  "description": "Promise Queries",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/f/pq.git"
+  },
+  "keywords": [
+    "promise",
+    "query"
+  ],
+  "author": "Fatih Kadir Akın <fatihkadirakin@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/f/pq/issues"
+  },
+  "homepage": "https://github.com/f/pq#readme"
+}
