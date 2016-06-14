@@ -1,4 +1,4 @@
-# PQ: Human Readable Promise Chains
+<img src="https://dl.dropbox.com/s/044jmqzt2ee5bkn/pquery.png" alt="PQ: Human Readable Promise Chains">
 
 Promises are awesome. But when it comes to write promise chains, it becomes kind of hard to write.
 PQ solves this issue and allows you to create **human readable promise chains**
