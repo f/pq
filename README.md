@@ -3,13 +3,14 @@
 Promises are awesome. But when it comes to write promise chains, it becomes kind of hard to write.
 PQ solves this issue and allows you to create **human readable promise chains**
 
+**What you write:**
 ```js
 var query = "(name, surname) of users of @json"
 
 pq(fetch("/users"), query).then(...)
 ```
 
-This will produce this promise chain:
+**This is actually what you run:**
 ```js
 fetch("/users").
   then(function () {

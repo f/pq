@@ -9,7 +9,7 @@ function flatten(array) {
   }, [])
 }
 
-function pq(promise, query) {
+function compile(query) {
   var params = Array.prototype.slice.call(arguments, 2)
   var promises = query.split(PROMISE_SEPERATOR)
   var promisedUnits = flatten(promises.map(function (sub) {
@@ -24,12 +24,16 @@ function pq(promise, query) {
   }).join(".")
 
   try {
-    var func = new Function("promise", "return Promise.resolve(promise)." + promisedUnits)
-    console.log(func.toString())
-    return func(promise)
+    return new Function("promise", "return Promise.resolve(promise)." + promisedUnits)
   } catch (e) {
     throw new e.constructor("Problem with running pq: " + e.message)
   }
 }
+
+function pq(promise, query) {
+  compile(query)(promise)
+}
+
+pq.compile = compile
 
 module.exports = pq
