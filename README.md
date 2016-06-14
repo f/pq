@@ -39,9 +39,9 @@ fetch("/users").
 
 ## Why?
 
-I use promises in many cases in my daily work. And **calling a promise chain** is a bit *boring* to write. I used to write `then` keyword to create a chain and this drive me crazy, they seem ugly.
+I use promises in many cases in my daily work. And **calling a promise chain** is a bit *boring* to write. I used to write `then` keyword *again and again* to create a chain and this drive me crazy, **they seem ugly**.
 
-I created **pq** to make this chains easier to write and easier to read.
+So, I created **pq** to make this chains **easier to write and easier to read**.
 
 Let's checkout a real-world promise example:
 ```js
@@ -74,7 +74,11 @@ pq(foo, "@json -> data")
 pq(foo, "data <- @json")
 ```
 
-> You can use `of` and `then` together: `full_name of user then last_letter of first_name`. This will be run like: `(full_name of user) then (last_letter of first_name)`, which is actually `user then full_name then first_name then last_letter`. **If it becomes confusing to you, do not use them together**
+> You can use `of` and `then` together: `full_name of user then last_letter of first_name`.
+> This will be run like: `(full_name of user) then (last_letter of first_name)`,
+> which is actually `user then full_name then first_name then last_letter`.
+
+> **If it becomes confusing to you, do not use them together**
 
 ## How to Write Queries
 
@@ -82,7 +86,7 @@ There are few simple rules to write a readable query:
 
 ### Promise Chain Keywords
 
-`then` and `of` are main keywords to generate promise chains. `foo then bar` is actually `foo.then(function (r) { return r.bar })`. Since they are chained, the left part of chain must have the right of the chain.
+**`then` and `of` are main keywords** to generate promise chains. `foo then bar` is actually `foo.then(function (r) { return r.bar })`. Since they are chained, the left part of chain must have the right of the chain.
 
 `of` (reverse promise keyword) makes the query more readable. Just like the *SQL*, you define what you want at first. `bar of foo` is `foo.then(function (r) { return r.bar })`, too.
 
