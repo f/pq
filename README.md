@@ -3,6 +3,8 @@
 Promises are awesome. But when it comes to write promise chains, it becomes kind of hard to write.
 PQ solves this issue and allows you to create **human readable promise chains**
 
+[![npm version](https://badge.fury.io/js/pquery.svg)](https://badge.fury.io/js/pquery)
+
 ## Install
 
 ```
