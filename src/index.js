@@ -20,16 +20,20 @@ function pq(promise, query) {
         return parser(_query, params)
       }, query)
   }).map(function (unit) {
-    return "\n  then(function (response) {\n    return response." + unit + "\n  })"
+    return "then(function (r) { r.this = r; return r." + unit + " })"
   }).join(".")
 
   try {
-    var func = new Function("promise", "  return Promise.resolve(promise)." + promisedUnits)
+    var func = new Function("promise", "return Promise.resolve(promise)." + promisedUnits)
     console.log(func.toString())
     return func(promise)
   } catch (e) {
     throw new e.constructor("Problem with running pq: " + e.message)
   }
 }
+
+pq(Promise.resolve({a: 1}), "(name, surname) of users").then(function (response) {
+  console.log(response)
+})
 
 module.exports = pq

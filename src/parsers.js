@@ -5,10 +5,10 @@ function parseEachKey(query) {
       return keys.split(",").map(function (key) {
         return key.trim()
       }).map(function (key) {
-        return "    " + key.split('.').pop() + ": object." + key
-      }).join(",\n")
+        return key.split('.').pop() + ": o." + key
+      }).join(", ")
     })
-    return "map(function (object) { return {\n" + keys + "\n  }})"
+    return "map(function (o) { return { " + keys + " }})"
   }
   return query
 }

@@ -1,6 +1,34 @@
-# PQ: Promise Queries
+# PQ: Human Readable Promise Chains
 
 Promises are awesome. But when it comes to write promise chains, it becomes kind of hard to write.
+PQ solves this issue and allows you to create **human readable promise chains**
+
+```js
+pq(fetch("/users"), "(name, surname) of users of @json").then(...)
+```
+
+This will produce this promise chain:
+```js
+fetch("/users").
+  then(function () {
+    return response.json()
+  }).
+  then(function (response) {
+    return response.users
+  }).
+  then(function (response) {
+    return response.map(function (object) { return {
+      name: object.name,
+      surname: object.surname
+  }})
+})
+```
+
+## Install
+
+```
+npm install pquery --save
+```
 
 ## Overview
 
@@ -17,7 +45,7 @@ foo.then(function (response) {
 
 This is how to write this using **pq**:
 ```js
-pq(foo, "json() -> data")
+pq(foo, "data of @json")
 ```
 
 Alternatively, you can write this more human-readable:
@@ -34,6 +62,21 @@ pq(foo, "@json -> data")
 // Also reversed arrows:
 pq(foo, "data <- @json")
 ```
+
+## How to Write Queries
+
+There are few simple rules to write a readable query:
+
+Character | Description | Example | Equivalent
+--- | --- | ---
+`@` | Method Calling | `@methodName` | `methodName()`
+`%{number}` | Simple Parameters | `pq(promise, "%1 of @json", "hello")` | `pq(promise, "hello of @json")`
+`&` | This Object | `&.length of users of @json` | `this.length of users of json()`
+
+Keyword | Description | Example
+--- | --- | ---
+`.. then ` or `.. -> ..` | Simple promise chain | `@json then data`, `@json -> data`
+`.. of ..` or `.. <- ..` | Simple promise chain, reversed | `data of @json`, `data <- @json`
 
 ## License
 
