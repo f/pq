@@ -67,6 +67,32 @@ pq(foo, "data of @json")
 
 Since **pq** is just a string, you can create queries anywhere you want and these **may be handy to write your own DSL**. Here is a real-world example:
 
+Instead of writing this promise chain:
+```js
+fastfood().
+then(function (response) {
+  return response.menus
+}).
+then(function (response) {
+  return response.find({name: 'hamburger'})
+}).
+then(function (response) {
+  return response.items()
+}).
+then(function (response) {
+  return response.map(function (res) {
+    return {
+      name: res.name,
+      price: res.price
+    }
+  })
+}).
+then(function (response) {
+  $("ul").append($("<li/>").html(`${response.name} ${response.price}`))
+})
+```
+
+Just write this:
 ```html
 <ul data-pq="(name, price) of @items of find({name: 'hamburger'}) of menus">
   {% $data.forEach(function (item) { %}
