@@ -88,7 +88,7 @@ There are few simple rules to write a readable query:
 
 **`then` and `of` are main keywords** to generate promise chains. `foo then bar` is actually `foo.then(function (r) { return r.bar })`. Since they are chained, the left part of chain must have the right of the chain.
 
-`of` (reverse promise keyword) makes the query more readable. Just like the *SQL*, you define what you want at first. `bar of foo` is `foo.then(function (r) { return r.bar })`, too.
+**`of` (reverse promise keyword) makes the query more readable. Just like the *SQL*, you define what you want at first.** `bar of foo` is `foo.then(function (r) { return r.bar })`, too.
 
 Keyword | Description | Example
 --- | --- | ---
