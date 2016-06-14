@@ -135,6 +135,55 @@ Character | Description | Example | Equivalent
 `%{number}` | Simple Parameters | `pq(promise, "%1 of @json", "hello")` | `pq(promise, "hello of @json")`
 `&` | This Object | `&.length of users of @json` | `this.length of users of json()`
 
+### Tutorial
+
+This is a simple, delayed Promised function:
+```js
+function sauces(id) {
+  return function () {
+    return new Promise(function (resolve) {
+      return resolve({
+        items: id == 1 ? [
+          {name: "Ketchup"},
+          {name: "Mustard"}
+        ] : [
+          {name: "BBQ"},
+          {name: "Mayonnaise"}
+        ]
+      })
+    })
+  }
+}
+
+function burgers() {
+  return new Promise(function (resolve) {
+    setTimeout(function () {
+      return resolve({
+        items: [
+          {name: "McChicken", price: "$10", sauces: sauces(1)},
+          {name: "Big Mac", price: "$15", sauces: sauces(2)},
+        ]
+      })
+    }, 1000)
+  })
+}
+```
+
+Let's query this using **pq**:
+
+```js
+pq(burgers(), "(price) of items").then(function (prices) {
+  console.log(prices) // [{price: "$10", price: "$15"}]
+})
+```
+
+Let's make it more complex:
+```js
+pq(burgers(), "(name) of items of @sauces of items[0]").then(function (sauce) {
+  console.log(sauce) // [{name: "Ketchup"}, {name: "Mustard"}]
+})
+```
+
 ## License
 
 MIT Licensed - Copyright &copy; 2016 by Fatih Kadir Akın
