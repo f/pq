@@ -1,6 +1,6 @@
 {
   "name": "pquery",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Promise Queries",
   "main": "src/index.js",
   "scripts": {
