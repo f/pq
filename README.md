@@ -7,6 +7,7 @@ PQ solves this issue and allows you to create **human readable promise chains**
 
 - Make your Promises more human-readable.
 - Allows to **create your own DSL**.
+- Zero-dependency.
 
 ## Install
 
