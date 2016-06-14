@@ -10,7 +10,7 @@ function flatten(array) {
 }
 
 function compile(query) {
-  var params = Array.prototype.slice.call(arguments, 2)
+  var params = Array.prototype.slice.call(arguments, 1)
   var promises = query.split(PROMISE_SEPERATOR)
   var promisedUnits = flatten(promises.map(function (sub) {
     return sub.split(REVERSE_PROMISE_SEPERATOR).reverse()
@@ -31,7 +31,8 @@ function compile(query) {
 }
 
 function pq(promise, query) {
-  compile(query)(promise)
+  var params = Array.prototype.slice.call(arguments, 2)
+  compile.apply(null, [query].concat(params))(promise)
 }
 
 pq.compile = compile

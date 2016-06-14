@@ -1,8 +1,8 @@
 var assert = require('assert')
 var compile = require("../").compile
 
-function getCompiledCode(code) {
-  return compile(code).toString().split(/\n/)[2]
+function getCompiledCode(code, param) {
+  return compile(code, param).toString().split(/\n/)[2]
 }
 
 assert.equal(getCompiledCode("a of b"), "return Promise.resolve(promise).then(function (r) { r.this = r; return r.b }).then(function (r) { r.this = r; return r.a })")
@@ -28,3 +28,5 @@ assert.equal(getCompiledCode("a <- @b"), getCompiledCode("b() then a"))
 assert.equal(getCompiledCode("@a of b"), getCompiledCode("b -> a()"))
 assert.equal(getCompiledCode("@a of @b of @c"), getCompiledCode("c() then b() then a()"))
 assert.equal(getCompiledCode("a() -> b() -> c()"), getCompiledCode("@c <- @b <- @a"))
+
+assert.equal(getCompiledCode("a() -> b('%1') -> c()", "hey"), getCompiledCode("@c <- b('hey') <- @a"))
