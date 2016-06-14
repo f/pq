@@ -4,6 +4,7 @@ Promises are awesome. But when it comes to write promise chains, it becomes kind
 PQ solves this issue and allows you to create **human readable promise chains**
 
 [![npm version](https://badge.fury.io/js/pquery.svg)](https://badge.fury.io/js/pquery)
+[![Build Status](https://travis-ci.org/f/pq.svg?branch=master)](https://travis-ci.org/f/pq)
 
 - Make your Promises more human-readable.
 - Allows to **create your own DSL**.
