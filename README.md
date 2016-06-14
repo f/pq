@@ -4,7 +4,9 @@ Promises are awesome. But when it comes to write promise chains, it becomes kind
 PQ solves this issue and allows you to create **human readable promise chains**
 
 ```js
-pq(fetch("/users"), "(name, surname) of users of @json").then(...)
+var query = "(name, surname) of users of @json"
+
+pq(fetch("/users"), query).then(...)
 ```
 
 This will produce this promise chain:
@@ -68,7 +70,7 @@ pq(foo, "data <- @json")
 There are few simple rules to write a readable query:
 
 Character | Description | Example | Equivalent
---- | --- | ---
+--- | --- | --- | ---
 `@` | Method Calling | `@methodName` | `methodName()`
 `%{number}` | Simple Parameters | `pq(promise, "%1 of @json", "hello")` | `pq(promise, "hello of @json")`
 `&` | This Object | `&.length of users of @json` | `this.length of users of json()`

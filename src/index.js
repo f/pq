@@ -32,8 +32,4 @@ function pq(promise, query) {
   }
 }
 
-pq(Promise.resolve({a: 1}), "(name, surname) of users").then(function (response) {
-  console.log(response)
-})
-
 module.exports = pq
