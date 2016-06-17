@@ -21,8 +21,8 @@ function parseParam(query, params) {
 
 function parseThis(query) {
   return query
-    .replace(/^\&\./g, "r.")
-    .replace(/^this$/g, "r")
+    .replace(/^\&\./g, "response.")
+    .replace(/^this$/g, "response")
 }
 
 function parseMethodCall(query) {

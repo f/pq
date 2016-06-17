@@ -46,6 +46,10 @@ function addCustomParser(fn, toEnd) {
 
 function pq(promise, query) {
   var params = Array.prototype.slice.call(arguments, 2)
+  if (typeof promise === "string") {
+    params.unshift(query)
+    query = promise
+  }
   return compile.apply(null, [query].concat(params))(promise)
 }
 
