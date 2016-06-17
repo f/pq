@@ -8,11 +8,11 @@
   <body>
     <script>
       pq.parse(function (query) {
-        return query.replace(/^gh\:([^\s]+)/, "fetch('https://api.github.com/$1?page=1&per_page=100')")
+        return query.replace(/^gh\:([^\s]+)/, "#fetch('https://api.github.com/$1?page=1&per_page=100')")
       })
 
       pq.parse(function (query) {
-        return query.replace(/([^\s]+)\s*~=\s*([^\s]+)/, ".filter(function (n) {return n.$1 == '$2'})")
+        return query.replace(/([^\s]+)\s*~=\s*([^\s]+)/, "filter(function (n) {return n.$1 == '$2'})")
       })
 
       pq("name~=delorean of @json of gh:users/f/repos").then(function (result) {

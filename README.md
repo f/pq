@@ -134,6 +134,7 @@ Character | Description | Example | Equivalent
 `@` | Method Calling | `@methodName` | `methodName()`
 `%{number}` | Simple Parameters | `pq(promise, "%1 of @json", "hello")` | `pq(promise, "hello of @json")`
 `&` | This Object | `&.length of users of @json` | `this.length of users of json()`
+`#` | Single Call | `@json of #fetch(...)` |
 
 ### Tutorial
 
@@ -181,6 +182,27 @@ Let's make it more complex:
 ```js
 pq(burgers(), "(name) of items of @sauces of items[0]").then(function (sauce) {
   console.log(sauce) // [{name: "Ketchup"}, {name: "Mustard"}]
+})
+```
+
+## How to Write Custom Parsers
+
+It's too easy to add custom parsers using `pq.parse` command:
+
+```js
+pq.parse(function (query) {
+  return query.replace(/^gh\:([^\s]+)/, "#fetch('https://api.github.com/$1?page=1&per_page=100')")
+})
+
+pq.parse(function (query) {
+  return query.replace(/([^\s]+)\s*~=\s*([^\s]+)/, "filter(function (n) {return n.$1 == '$2'})")
+})
+```
+
+Then you'll be able to use your custom parsers.
+```js
+pq("name~=delorean of @json of gh:users/f/repos").then(function (result) {
+  console.log(result)
 })
 ```
 

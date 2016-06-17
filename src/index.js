@@ -20,14 +20,13 @@ function compile(query) {
         return parser(_query, params, fragment, query)
       }, fragment)
   }).map(function (unit) {
-    var body = unit;
-    if (unit[0] == ".") {
-      body = "response." + unit.substr(1)
+    var body = "response." + unit
+    if (unit[0] == "#") {
+      body = unit.substr(1)
     }
     return "then(function (response) { return " + body + " })"
   }).join(".")
 
-  console.log(promisedUnits)
   try {
     return new Function("promise", "return Promise.resolve(promise)." + promisedUnits)
   } catch (e) {

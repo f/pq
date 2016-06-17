@@ -26,7 +26,7 @@ function parseThis(query) {
 }
 
 function parseMethodCall(query) {
-  return query.replace(/^\@([\w\.\_]+)/g, ".$1()")
+  return query.replace(/^\@([\w\.\_]+)/g, "$1()")
 }
 
 // Parser Flow

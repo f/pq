@@ -21,9 +21,9 @@ function compile(query) {
         return parser(_query, params, fragment, query)
       }, fragment)
   }).map(function (unit) {
-    var body = unit;
-    if (unit[0] == ".") {
-      body = "response." + unit.substr(1)
+    var body = "response." + unit
+    if (unit[0] == "#") {
+      body = unit.substr(1)
     }
     return "then(function (response) { return " + body + " })"
   }).join(".")
@@ -88,7 +88,7 @@ function parseThis(query) {
 }
 
 function parseMethodCall(query) {
-  return query.replace(/^\@([\w\.\_]+)/g, ".$1()")
+  return query.replace(/^\@([\w\.\_]+)/g, "$1()")
 }
 
 // Parser Flow
