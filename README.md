@@ -26,6 +26,9 @@ bower install pquery --save
 
 **What you write:**
 ```js
+pq("(name, surname) of users of @json of #fetch('/users')").then(...)
+
+// or more functional
 pq(fetch("/users"), "(name, surname) of users of @json").then(...)
 ```
 
