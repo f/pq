@@ -12,10 +12,14 @@ PQ solves this issue and allows you to create **human readable promise chains**
 
 ## Install
 
-You can simply use NPM to download **pq**.
+You can simply use NPM/Bower to download **pq**.
 
 ```
+# Using NPM
 npm install pquery --save
+
+# Using Bower
+bower install pquery --save
 ```
 
 ## Overview
