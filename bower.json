@@ -1,0 +1,22 @@
+{
+  "name": "pquery",
+  "version": "0.1.1",
+  "description": "Promise Queries",
+  "main": "build/pquery.js",
+  "authors": [
+    "Fatih Kadir Akın <fatihkadirakin@gmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "promise",
+    "query"
+  ],
+  "homepage": "https://github.com/f/pq",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

@@ -1,0 +1,16 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script src="../build/pquery.js"></script>
+  </head>
+  <body>
+    <script>
+      var github = fetch("https://api.github.com/users/f/repos")
+      pq(github, "(name, owner) of @json").then(function (items) {
+        items.forEach(function (item) {
+          document.body.innerHTML += "<div>" + item.owner.login + "/" + item.name +" </div>"
+        })
+      })
+    </script>
+  </body>
+</html>

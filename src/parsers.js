@@ -8,7 +8,7 @@ function parseEachKey(query) {
         return key.split('.').pop() + ": o." + key
       }).join(", ")
     })
-    return "map(function (o) { return { " + keys + " }})"
+    return ".map(function (o) { return { " + keys + " }})"
   }
   return query
 }
@@ -20,11 +20,13 @@ function parseParam(query, params) {
 }
 
 function parseThis(query) {
-  return query.replace(/^\&/, "this")
+  return query
+    .replace(/^\&\./g, "r.")
+    .replace(/^this$/g, "r")
 }
 
 function parseMethodCall(query) {
-  return query.replace(/^\@([\w\.\_]+)/g, "$1()")
+  return query.replace(/^\@([\w\.\_]+)/g, ".$1()")
 }
 
 // Parser Flow
