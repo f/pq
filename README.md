@@ -210,6 +210,32 @@ pq("name~=delorean of @json of gh:users/f/repos").then(function (result) {
 })
 ```
 
+## Query Reducers
+
+Query reducers helps you to manage your data flow easier.
+
+### `pq.before`
+
+`pq.before` will give you the raw query so you can make changes on it on-the-fly.
+
+```js
+pq.before(function (query) {
+  // You can change query before compilation
+  return query
+})
+```
+
+### `pq.after`
+
+`pq.after` will give you compiled promise fragments.
+
+```js
+pq.after(function (queries) {
+  // You can change queries after it's compiled
+  return queries.push(pq.compile_fragment("@json"))
+})
+```
+
 ## License
 
 MIT Licensed - Copyright &copy; 2016 by Fatih Kadir Akın

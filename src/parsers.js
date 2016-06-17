@@ -14,7 +14,7 @@ function parseEachKey(query) {
 }
 
 function parseParam(query, params) {
-  return query.replace(/([^\%])\%(\d+)/g, function (_, e, r) {
+  return query.replace(/(^\s*|[^\%])\%(\d+)/g, function (_, e, r) {
     return (e=='%'?'':e) + params[parseInt(r)-1]
   }).replace(/\%{2}(\d+)/g, "%$1")
 }
