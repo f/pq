@@ -1,4 +1,74 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.pq = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+'use strict';
+
+var processFn = function (fn, P, opts) {
+	return function () {
+		var that = this;
+		var args = new Array(arguments.length);
+
+		for (var i = 0; i < arguments.length; i++) {
+			args[i] = arguments[i];
+		}
+
+		return new P(function (resolve, reject) {
+			args.push(function (err, result) {
+				if (err) {
+					reject(err);
+				} else if (opts.multiArgs) {
+					var results = new Array(arguments.length - 1);
+
+					for (var i = 1; i < arguments.length; i++) {
+						results[i - 1] = arguments[i];
+					}
+
+					resolve(results);
+				} else {
+					resolve(result);
+				}
+			});
+
+			fn.apply(that, args);
+		});
+	};
+};
+
+var pify = module.exports = function (obj, P, opts) {
+	if (typeof P !== 'function') {
+		opts = P;
+		P = Promise;
+	}
+
+	opts = opts || {};
+	opts.exclude = opts.exclude || [/.+Sync$/];
+
+	var filter = function (key) {
+		var match = function (pattern) {
+			return typeof pattern === 'string' ? key === pattern : pattern.test(key);
+		};
+
+		return opts.include ? opts.include.some(match) : !opts.exclude.some(match);
+	};
+
+	var ret = typeof obj === 'function' ? function () {
+		if (opts.excludeMain) {
+			return obj.apply(this, arguments);
+		}
+
+		return processFn(obj, P, opts).apply(this, arguments);
+	} : {};
+
+	return Object.keys(obj).reduce(function (ret, key) {
+		var x = obj[key];
+
+		ret[key] = typeof x === 'function' && filter(key) ? processFn(x, P, opts) : x;
+
+		return ret;
+	}, ret);
+};
+
+pify.all = pify;
+
+},{}],2:[function(require,module,exports){
 module.exports = function (pq) {
   return function () {
     pq.before(function (query) {
@@ -13,6 +83,16 @@ module.exports = function (pq) {
                       ")
         /*
         */
+      return query
+    })
+    pq.after(function (query) {
+      console.group('Promise Chain')
+      query.forEach(function (q) {
+        console.log(q
+                    .replace(/^then\(function \(response\) \{ return/, ' ... ')
+                    .replace(/\}\)$/, ' ... '))
+      })
+      console.groupEnd()
       return query
     })
     pq.middleware(function (r) {
@@ -33,7 +113,7 @@ module.exports = function (pq) {
   }
 }
 
-},{}],2:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
 var PARSE_FLOW = require("./parsers")
 var AFTER_FLOW = []
 var BEFORE_FLOW = []
@@ -120,13 +200,21 @@ function pq(promise, query) {
     params.unshift(query)
     query = promise
   }
-  return compile.apply(null, [query].concat(params))(promise).then(function (response) {
+  var promise = compile.apply(null, [query].concat(params))(promise).then(function (response) {
     return RESPONSE_FLOW.reduce(function (response, handler) {
-      handler(response)
+      return handler(response)
     }, response)
   })
+
+  return {
+    promise: promise,
+    query: function (query) {
+      return pq(promise, query)
+    }
+  }
 }
 
+pq.promisify = require('pify')
 pq.compile = compile
 pq.compileFragments = compileFragments
 pq.orderQuery = orderQuery
@@ -137,7 +225,8 @@ pq.middleware = addResponseHandler
 pq.debug = require('./debugger')(pq)
 module.exports = pq
 
-},{"./debugger":1,"./parsers":3}],3:[function(require,module,exports){
+
+},{"./debugger":2,"./parsers":4,"pify":1}],4:[function(require,module,exports){
 function parseEachKey(query) {
   var KEY_GETTER = /^\(([\w+\,\s\.]+)\)$/gi
   if (KEY_GETTER.test(query)) {
@@ -169,13 +258,18 @@ function parseMethodCall(query) {
   return query.replace(/^\@([\w\.\_]+)/g, "$1()")
 }
 
+function parsePify(query) {
+  return query.replace(/^\<\=\s*([\w\.\_]+)(.*)/, "#pq.promisify($1)$2")
+}
+
 // Parser Flow
 module.exports = [
   parseEachKey,
   parseThis,
   parseMethodCall,
-  parseParam
+  parseParam,
+  parsePify
 ]
 
-},{}]},{},[2])(2)
+},{}]},{},[3])(3)
 });

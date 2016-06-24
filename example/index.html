@@ -19,9 +19,15 @@
         return query.replace(/([^\s]+)\s*~=\s*([^\s]+)/, "filter(function (n) {return n.$1 == '$2'})")
       })
 
-      pq("name~=delorean of @json of gh:users/f/repos").then(function (result) {
-        console.log(result)
+      pq("name~=delorean of @json of gh:users/f/repos").promise.then(function (result) {
+        console.log("RESPONSE", result)
       })
+
+      function hello(num, callback) {
+        setTimeout(function () {
+          callback(null, {a: num}, 1)
+        })
+      }
     </script>
   </body>
 </html>

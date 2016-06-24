@@ -29,10 +29,15 @@ function parseMethodCall(query) {
   return query.replace(/^\@([\w\.\_]+)/g, "$1()")
 }
 
+function parsePify(query) {
+  return query.replace(/^\<\=\s*([\w\.\_]+)(.*)/, "#pq.promisify($1)$2")
+}
+
 // Parser Flow
 module.exports = [
   parseEachKey,
   parseThis,
   parseMethodCall,
-  parseParam
+  parseParam,
+  parsePify
 ]

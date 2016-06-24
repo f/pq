@@ -14,6 +14,16 @@ module.exports = function (pq) {
         */
       return query
     })
+    pq.after(function (query) {
+      console.group('Promise Chain')
+      query.forEach(function (q) {
+        console.log(q
+                    .replace(/^then\(function \(response\) \{ return/, ' ... ')
+                    .replace(/\}\)$/, ' ... '))
+      })
+      console.groupEnd()
+      return query
+    })
     pq.middleware(function (r) {
       if (typeof r === "string" || typeof r === "number") {
         console.log(r)

@@ -84,13 +84,21 @@ function pq(promise, query) {
     params.unshift(query)
     query = promise
   }
-  return compile.apply(null, [query].concat(params))(promise).then(function (response) {
+  var promise = compile.apply(null, [query].concat(params))(promise).then(function (response) {
     return RESPONSE_FLOW.reduce(function (response, handler) {
-      handler(response)
+      return handler(response)
     }, response)
   })
+
+  return {
+    promise: promise,
+    query: function (query) {
+      return pq(promise, query)
+    }
+  }
 }
 
+pq.promisify = require('pify')
 pq.compile = compile
 pq.compileFragments = compileFragments
 pq.orderQuery = orderQuery
@@ -100,3 +108,4 @@ pq.after = addAfterHandler
 pq.middleware = addResponseHandler
 pq.debug = require('./debugger')(pq)
 module.exports = pq
+
