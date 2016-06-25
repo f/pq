@@ -30,7 +30,7 @@ function parseMethodCall(query) {
 }
 
 function parsePify(query) {
-  return query.replace(/^\<\=\s*([\w\.\_]+)(.*)/, "#pq.promisify($1)$2")
+  return query.replace(/^\!([\w\.\_]+)(.*)/, "#pq.promisify($1)$2")
 }
 
 // Parser Flow

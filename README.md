@@ -152,7 +152,7 @@ Character | Description | Example | Equivalent
 `%{number}` | Simple Parameters | `pq(promise, "%1 of @json", "hello")` | `pq(promise, "hello of @json")`
 `&` | This Object | `&.length of users of @json` | `this.length of users of json()`
 `#` | Single Call | `@json of #fetch(...)` |
-`<=` | Promisify | `response of <= functionWithCallback` |
+`!` | Promisify | `response of !functionWithCallback` |
 
 ### Tutorial
 
