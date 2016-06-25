@@ -34,6 +34,12 @@ pq("(name, surname) of users of @json of #fetch('/users')").then(...)
 
 // or more functional
 pq(fetch("/users"), "(name, surname) of users of @json").then(...)
+
+// or Unix way
+pq("#fetch('/users') | @json | users | (name, surname)").then(...)
+
+// or reverse pipeline
+pq("(name, surname) <| users <| @json <| #fetch('/users')").then(...)
 ```
 
 **This is actually what you run:**
@@ -125,8 +131,8 @@ There are few simple rules to write a readable query:
 
 Keyword | Description | Example
 --- | --- | ---
-`.. then ` or `.. -> ..` | Simple promise chain | `@json then data`, `@json -> data`
-`.. of ..` or `.. <- ..` | Simple promise chain, reversed | `data of @json`, `data <- @json`
+`.. then ` or `.. -> ..` or `|>` or ` | ` | Simple promise chain | `@json then data`, `@json -> data`
+`.. of ..` or `.. <- ..` or `<|` | Simple promise chain, reversed | `data of @json`, `data <- @json`
 
 > You can use `of` and `then` together: `full_name of user then last_letter of first_name`.
 > This will be run like: `(full_name of user) then (last_letter of first_name)`,

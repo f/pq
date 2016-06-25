@@ -4,8 +4,8 @@ var BEFORE_FLOW = []
 var RESPONSE_FLOW = []
 var ERROR_FLOW = []
 
-var REVERSE_PROMISE_SEPERATOR = /\sof\s|\<\-/g
-var PROMISE_SEPERATOR = /\sthen\s|\-\>/g
+var REVERSE_PROMISE_SEPERATOR = /\sof\s|\<\-|\<\|/g
+var PROMISE_SEPERATOR = /\sthen\s|\-\>|\|\>|\s\|\s/g
 
 function flatten(array) {
   return array.reduce(function (a, b) {
