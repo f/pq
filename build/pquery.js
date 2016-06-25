@@ -200,18 +200,11 @@ function pq(promise, query) {
     params.unshift(query)
     query = promise
   }
-  var promise = compile.apply(null, [query].concat(params))(promise).then(function (response) {
+  return compile.apply(null, [query].concat(params))(promise).then(function (response) {
     return RESPONSE_FLOW.reduce(function (response, handler) {
       return handler(response)
     }, response)
   })
-
-  return {
-    promise: promise,
-    query: function (query) {
-      return pq(promise, query)
-    }
-  }
 }
 
 pq.promisify = require('pify')
@@ -225,6 +218,11 @@ pq.middleware = addResponseHandler
 pq.debug = require('./debugger')(pq)
 module.exports = pq
 
+Promise.prototype.query = function (query) {
+  return this.then(function (response) {
+    return pq(response, query)
+  })
+}
 
 },{"./debugger":2,"./parsers":4,"pify":1}],4:[function(require,module,exports){
 function parseEachKey(query) {
@@ -259,7 +257,7 @@ function parseMethodCall(query) {
 }
 
 function parsePify(query) {
-  return query.replace(/^\<\=\s*([\w\.\_]+)(.*)/, "#pq.promisify($1)$2")
+  return query.replace(/^\!([\w\.\_]+)(.*)/, "#pq.promisify($1)$2")
 }
 
 // Parser Flow
