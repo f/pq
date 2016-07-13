@@ -1,6 +1,6 @@
 {
   "name": "pquery",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Promise Queries",
   "main": "build/pquery.js",
   "authors": [
