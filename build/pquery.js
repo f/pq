@@ -72,6 +72,7 @@ pify.all = pify;
 module.exports = function (pq) {
   return function () {
     pq.before(function (query) {
+      for (var i = 0; i < 50; i++) { console.groupEnd() }
       console.group("%cPQ: " + query, "\
                       padding: 2px 5px;\
                       font-weight: normal;\
@@ -99,11 +100,11 @@ module.exports = function (pq) {
       if (typeof r === "string" || typeof r === "number") {
         console.log(r)
       } else if (r instanceof Array) {
-        r.forEach(i => console.log(i))
+        r.forEach(function (i) { console.log(i) })
       } else {
         for (var key in r) {
           if (r.hasOwnProperty(key)) {
-            console.log(`${key}:`, r[key])
+            console.log(key + ":", r[key])
           }
         }
       }
