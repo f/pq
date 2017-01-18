@@ -10,8 +10,6 @@ PQ solves this issue and allows you to create **human readable promise chains**
 - Allows to **create your own DSL**.
 - Zero-dependency.
 
-![Debug](https://dl.dropboxusercontent.com/s/gaj9ojo4uvnvsv6/Screenshot%202016-06-24%2011.52.12.png?dl=0)
-
 > `pq.debug()` gives you a cool debugger to debug your queries
 
 ## Install
